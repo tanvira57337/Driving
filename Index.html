@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tanvir's Driving Journey</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#e63946;--bg:#0a0a0a;--card:#181818;--border:#2e2e2e;
+  --text:#f0f0f0;--muted:#999;--blue:#3a86ff;--green:#06d6a0;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{scroll-behavior:smooth;background:#0a0a0a !important;color:#f0f0f0 !important;}
+body{background:#0a0a0a !important;color:#f0f0f0 !important;font-family:'DM Sans',sans-serif;overflow-x:hidden;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,10,0.94);backdrop-filter:blur(14px);border-bottom:1px solid var(–border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{font-family:‘Bebas Neue’,sans-serif;font-size:20px;color:#ccc;letter-spacing:2px;}
+.nav-links{display:flex;gap:18px;list-style:none;flex-wrap:wrap;}
+.nav-links a{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#aaa;text-decoration:none;transition:color 0.2s;}
+.nav-links a:hover{color:#fff;}
+
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:100px 24px 60px;text-align:center;background:#0a0a0a;}
+.road-bg{position:absolute;inset:0;background:repeating-linear-gradient(180deg,transparent 0,transparent 50px,rgba(255,255,255,0.02) 50px,rgba(255,255,255,0.02) 52px);animation:roadScroll 3s linear infinite;}
+@keyframes roadScroll{from{transform:translateY(0)}to{transform:translateY(52px)}}
+.hero-glow{position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(230,57,70,0.1) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
+.hero-content{position:relative;max-width:720px;}
+.hero-tag{display:inline-block;font-size:10px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(–red);border:1px solid rgba(230,57,70,0.35);padding:6px 16px;border-radius:999px;margin-bottom:22px;animation:fadeUp 0.6s ease both;}
+.hero h1{font-family:‘Bebas Neue’,sans-serif;font-size:clamp(60px,13vw,115px);line-height:0.88;letter-spacing:2px;color:#ffffff;animation:fadeUp 0.6s 0.1s ease both;}
+.hero h1 em{font-family:‘Instrument Serif’,serif;font-style:italic;color:var(–red);letter-spacing:0;}
+.hero-sub{font-size:16px;color:#ccc;margin-top:20px;line-height:1.7;animation:fadeUp 0.6s 0.2s ease both;}
+.hero-stats{display:flex;justify-content:center;gap:36px;margin-top:36px;animation:fadeUp 0.6s 0.3s ease both;flex-wrap:wrap;}
+.stat-item{text-align:center;}
+.stat-num{font-family:‘Bebas Neue’,sans-serif;font-size:42px;color:var(–red);line-height:1;}
+.stat-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#bbb;margin-top:3px;}
+.scroll-hint{margin-top:48px;animation:fadeUp 0.6s 0.4s ease both;}
+.scroll-hint span{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#aaa;}
+.scroll-line{display:block;margin:10px auto 0;width:1px;height:44px;background:linear-gradient(180deg,var(–red),transparent);animation:scrollPulse 1.8s infinite;}
+@keyframes scrollPulse{0%,100%{opacity:1;height:44px}50%{opacity:0.4;height:30px}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+.section{padding:80px 24px;max-width:800px;margin:0 auto;background:#0a0a0a;}
+.section-tag{font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(–red);margin-bottom:10px;}
+.section-title{color:#ffffff !important;font-family:‘Bebas Neue’,sans-serif;font-size:clamp(38px,6vw,62px);letter-spacing:2px;line-height:1;color:#fff;margin-bottom:14px;}
+.section-line{width:60px;height:3px;background:var(–red);border-radius:999px;margin-bottom:36px;}
+
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:520px){.about-grid{grid-template-columns:1fr;}}
+.about-card{background:var(–card);border:1px solid var(–border);border-radius:16px;padding:22px;transition:border-color 0.2s,transform 0.2s;}
+.about-card:hover{border-color:#444;transform:translateY(-2px);}
+.about-card.wide{grid-column:1/-1;}
+.about-icon{font-size:26px;margin-bottom:10px;}
+.about-label{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:6px;}
+.about-val{font-size:15px;color:#eee;line-height:1.6;}
+.about-story{font-size:14px;color:#ccc;line-height:1.8;}
+
+.timeline{position:relative;padding-left:32px;}
+.timeline::before{content:’’;position:absolute;left:10px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(–red),transparent);}
+.lesson-item{position:relative;margin-bottom:20px;}
+.lesson-dot{position:absolute;left:-27px;top:16px;width:14px;height:14px;border-radius:50%;background:var(–red);border:2px solid var(–bg);box-shadow:0 0 0 2px var(–red);}
+.lesson-card{background:var(–card);border:1px solid var(–border);border-radius:14px;padding:16px 18px;transition:border-color 0.2s;}
+.lesson-card:hover{border-color:#444;}
+.lesson-top{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.lesson-num{font-family:‘Bebas Neue’,sans-serif;font-size:18px;color:var(–red);}
+.lesson-date{font-size:11px;color:#aaa;margin-left:auto;}
+.lesson-title{font-size:14px;font-weight:600;color:#f0f0f0;}
+.lesson-note{font-size:13px;color:#bbb;margin-top:5px;line-height:1.7;}
+.lesson-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+.tag{font-size:10px;font-weight:600;letter-spacing:0.5px;padding:3px 10px;border-radius:999px;border:1px solid;}
+.tag.good{color:#06d6a0;border-color:rgba(6,214,160,0.35);background:rgba(6,214,160,0.08);}
+.tag.practice{color:#ffd166;border-color:rgba(255,209,102,0.35);background:rgba(255,209,102,0.08);}
+.tag.hard{color:var(–red);border-color:rgba(230,57,70,0.35);background:rgba(230,57,70,0.08);}
+.add-lesson-btn{display:flex;align-items:center;gap:10px;background:transparent;border:1px dashed var(–border);border-radius:14px;padding:14px 18px;color:#aaa;font-size:13px;font-family:‘DM Sans’,sans-serif;cursor:pointer;width:100%;margin-top:4px;transition:border-color 0.2s,color 0.2s;}
+.add-lesson-btn:hover{border-color:var(–red);color:var(–red);}
+
+.tracker-grid{display:flex;flex-direction:column;gap:10px;}
+.tracker-item{background:var(–card);border:1px solid var(–border);border-radius:14px;padding:14px 16px;cursor:pointer;transition:border-color 0.2s,transform 0.15s;}
+.tracker-item:hover{border-color:#444;transform:translateY(-1px);}
+.tracker-top{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.tracker-num{font-family:‘Bebas Neue’,sans-serif;font-size:20px;color:var(–red);min-width:22px;}
+.tracker-label{font-size:14px;font-weight:500;color:#f0f0f0;flex:1;}
+.priority-badge{font-size:9px;background:rgba(230,57,70,0.12);color:var(–red);border:1px solid rgba(230,57,70,0.25);border-radius:4px;padding:2px 6px;font-weight:700;letter-spacing:0.5px;}
+.bars{display:flex;flex-direction:column;gap:5px;}
+.bar-row{display:flex;align-items:center;gap:8px;}
+.bar-lbl{font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;width:48px;color:#888;}
+.bar-track{flex:1;height:5px;background:#222;border-radius:999px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:999px;transition:width 0.5s ease;}
+.bar-fill.vid{background:linear-gradient(90deg,#3a86ff,#60a5fa);}
+.bar-fill.les{background:linear-gradient(90deg,#06d6a0,#34d399);}
+.bar-pct{font-size:10px;font-weight:600;width:28px;text-align:right;}
+
+.tips-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:520px){.tips-grid{grid-template-columns:1fr;}}
+.tip-card{background:var(–card);border:1px solid var(–border);border-radius:16px;padding:20px;position:relative;overflow:hidden;transition:border-color 0.2s,transform 0.2s;}
+.tip-card:hover{border-color:#444;transform:translateY(-2px);}
+.tip-num{font-family:‘Bebas Neue’,sans-serif;font-size:64px;color:rgba(230,57,70,0.06);position:absolute;top:-8px;right:12px;line-height:1;pointer-events:none;}
+.tip-icon{font-size:22px;margin-bottom:10px;}
+.tip-text{font-size:13px;color:#ccc;line-height:1.7;}
+.tip-text strong{color:#f0f0f0;}
+
+.gallery-section{background:var(–card);border-top:1px solid var(–border);border-bottom:1px solid var(–border);padding:80px 24px;}
+.gallery-inner{max-width:800px;margin:0 auto;}
+.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+@media(max-width:520px){.gallery-grid{grid-template-columns:1fr 1fr;}}
+.gallery-slot{aspect-ratio:1;border-radius:14px;border:2px dashed var(–border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;transition:border-color 0.2s,background 0.2s;position:relative;overflow:hidden;background:#111;}
+.gallery-slot:hover{border-color:var(–red);background:#161616;}
+.gallery-slot input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;z-index:2;}
+.gallery-slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:12px;z-index:1;}
+.add-icon{font-size:24px;color:#888;pointer-events:none;}
+.add-text{font-size:10px;letter-spacing:1px;color:#888;text-transform:uppercase;pointer-events:none;}
+.gallery-slot.filled .add-icon,.gallery-slot.filled .add-text{display:none;}
+
+.countdown-wrap{background:linear-gradient(135deg,#1a0808,#0d0d0d);border:1px solid rgba(230,57,70,0.2);border-radius:20px;padding:36px 28px;text-align:center;position:relative;overflow:hidden;}
+.countdown-wrap::before{content:’’;position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(230,57,70,0.08),transparent 60%);pointer-events:none;}
+.countdown-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#aaa;margin-bottom:6px;}
+.countdown-title{font-family:‘Bebas Neue’,sans-serif;font-size:26px;color:#fff;letter-spacing:2px;margin-bottom:28px;}
+.countdown-digits{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;align-items:flex-start;}
+.digit-block{text-align:center;}
+.digit-num{font-family:‘Bebas Neue’,sans-serif;font-size:clamp(48px,10vw,72px);color:var(–red);line-height:1;min-width:70px;display:block;}
+.digit-lbl{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#aaa;}
+.digit-sep{font-family:‘Bebas Neue’,sans-serif;font-size:60px;color:#333;padding-top:4px;}
+.countdown-input-wrap{margin-top:28px;display:flex;flex-direction:column;align-items:center;gap:10px;}
+.countdown-input-wrap label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#aaa;}
+.countdown-input-wrap input[type=date]{background:#1c1c1c;border:1px solid var(–border);border-radius:10px;padding:10px 16px;color:#f0f0f0;font-family:‘DM Sans’,sans-serif;font-size:14px;outline:none;cursor:pointer;}
+.countdown-input-wrap input[type=date]:focus{border-color:var(–red);}
+
+footer{border-top:1px solid var(–border);padding:36px 24px;text-align:center;}
+.footer-logo{font-family:‘Bebas Neue’,sans-serif;font-size:28px;color:var(–red);letter-spacing:3px;margin-bottom:8px;}
+.footer-sub{font-size:13px;color:#bbb;}
+
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:200;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.open{display:flex;}
+.modal{background:#1e1e1e;border:1px solid #3a3a3a;border-radius:20px;padding:28px;width:100%;max-width:360px;box-shadow:0 24px 80px rgba(0,0,0,0.9);}
+.modal h3{font-family:‘Bebas Neue’,sans-serif;font-size:26px;color:#fff;letter-spacing:1px;margin-bottom:4px;}
+.modal p{font-size:13px;color:#bbb;margin-bottom:22px;}
+.modal-section{margin-bottom:16px;}
+.modal-section label{display:block;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;}
+.lbl-vid{color:var(–blue);}
+.lbl-les{color:var(–green);}
+.slider-row{display:flex;align-items:center;gap:10px;}
+.slider-row input[type=range]{flex:1;-webkit-appearance:none;height:6px;border-radius:999px;outline:none;cursor:pointer;}
+.slider-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.5);}
+.slider-val{font-family:‘Bebas Neue’,sans-serif;font-size:22px;min-width:44px;text-align:right;}
+.modal-btns{display:flex;gap:10px;margin-top:22px;}
+.btn{flex:1;padding:12px;border:none;border-radius:10px;font-family:‘DM Sans’,sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:opacity 0.2s;}
+.btn:hover{opacity:0.85;}
+.btn-save{background:var(–red);color:#fff;}
+.btn-cancel{background:#2a2a2a;color:#aaa;}
+.lmodal{background:#1e1e1e;border:1px solid #3a3a3a;border-radius:20px;padding:28px;width:100%;max-width:400px;box-shadow:0 24px 80px rgba(0,0,0,0.9);}
+.lmodal h3{font-family:‘Bebas Neue’,sans-serif;font-size:26px;color:#fff;letter-spacing:1px;margin-bottom:18px;}
+.form-group{margin-bottom:14px;}
+.form-group label{display:block;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#999;margin-bottom:6px;}
+.form-group input,.form-group textarea{width:100%;background:#111;border:1px solid var(–border);border-radius:10px;padding:10px 14px;color:#f0f0f0;font-family:‘DM Sans’,sans-serif;font-size:13px;outline:none;transition:border-color 0.2s;}
+.form-group input:focus,.form-group textarea:focus{border-color:var(–red);}
+.form-group textarea{resize:vertical;min-height:80px;}
+.tag-select{display:flex;gap:8px;flex-wrap:wrap;}
+.tag-opt{padding:5px 12px;border-radius:999px;border:1px solid #333;font-size:11px;font-weight:600;cursor:pointer;transition:all 0.2s;background:transparent;color:#aaa;font-family:‘DM Sans’,sans-serif;}
+.tag-opt.selected-good{color:#06d6a0;border-color:#06d6a0;background:rgba(6,214,160,0.1);}
+.tag-opt.selected-practice{color:#ffd166;border-color:#ffd166;background:rgba(255,209,102,0.1);}
+.tag-opt.selected-hard{color:var(–red);border-color:var(–red);background:rgba(230,57,70,0.1);}
+</style>
+
+</head>
+<body style="background:#0a0a0a !important;color:#f0f0f0 !important;"><div id="app-root" style="background:#0a0a0a;min-height:100vh;color:#f0f0f0;">
+
+<nav>
+  <div class="nav-logo">Tanvir 🚗</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#lessons">Lessons</a></li>
+    <li><a href="#progress">Progress</a></li>
+    <li><a href="#tips">Tips</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#countdown">Test Date</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div class="road-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-tag">🇬🇧 UK Driving Journey</div>
+    <h1>Tanvir's<br><em>Driving</em><br>Journey</h1>
+    <p class="hero-sub">From my very first lesson to the day I pass my test.<br>Follow along, cheer me on! 💙</p>
+    <div class="hero-stats">
+      <div class="stat-item"><div class="stat-num" id="hero-lessons">5</div><div class="stat-label">Lessons Done</div></div>
+      <div class="stat-item"><div class="stat-num" id="hero-days">—</div><div class="stat-label">Days to Test</div></div>
+      <div class="stat-item"><div class="stat-num">0</div><div class="stat-label">Tests Passed</div></div>
+    </div>
+    <div class="scroll-hint"><span>Scroll to explore</span><i class="scroll-line"></i></div>
+  </div>
+</div>
+
+<section class="section" id="about">
+  <div class="section-tag">Who am I</div>
+  <div class="section-title">My Story</div>
+  <div class="section-line"></div>
+  <div class="about-grid">
+    <div class="about-card wide">
+      <div class="about-icon">👋</div>
+      <div class="about-label">About Me</div>
+      <div class="about-story">My name is Tanvir and this is my driving journey. I started learning to drive and I'm documenting every step — the good lessons, the tough ones, and everything in between. I'm working through my weaknesses one lesson at a time, watching videos, and giving it everything I've got. This page is for my friends and family to follow along! 🚗💙</div>
+    </div>
+    <div class="about-card"><div class="about-icon">📍</div><div class="about-label">Location</div><div class="about-val">United Kingdom 🇬🇧</div></div>
+    <div class="about-card"><div class="about-icon">🎯</div><div class="about-label">Goal</div><div class="about-val">Pass my UK driving test!</div></div>
+    <div class="about-card"><div class="about-icon">📅</div><div class="about-label">Started</div><div class="about-val">18th February 2025</div></div>
+    <div class="about-card"><div class="about-icon">💪</div><div class="about-label">Biggest Challenge</div><div class="about-val">Junctions & Roundabouts</div></div>
+  </div>
+</section>
+
+<section class="section" id="lessons">
+  <div class="section-tag">Lesson by Lesson</div>
+  <div class="section-title">My Lessons</div>
+  <div class="section-line"></div>
+  <div class="timeline" id="timeline"></div>
+  <button class="add-lesson-btn" onclick="openLessonModal()"><span style="font-size:18px">+</span> Add New Lesson</button>
+</section>
+
+<section class="section" id="progress">
+  <div class="section-tag">Weaknesses Tracker</div>
+  <div class="section-title">My Progress</div>
+  <div class="section-line"></div>
+  <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;">
+    <div style="flex:1;min-width:140px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 18px;">
+      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#999;margin-bottom:6px;">Overall Video</div>
+      <div style="background:#222;border-radius:999px;height:6px;overflow:hidden;margin-bottom:6px;"><div class="bar-fill vid" id="overall-video" style="width:0%"></div></div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:30px;color:var(--blue);" id="overall-video-num">0%</div>
+    </div>
+    <div style="flex:1;min-width:140px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 18px;">
+      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#999;margin-bottom:6px;">Overall Lesson</div>
+      <div style="background:#222;border-radius:999px;height:6px;overflow:hidden;margin-bottom:6px;"><div class="bar-fill les" id="overall-lesson" style="width:0%"></div></div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:30px;color:var(--green);" id="overall-lesson-num">0%</div>
+    </div>
+  </div>
+  <div class="tracker-grid" id="tracker-list"></div>
+  <p style="font-size:12px;color:#888;margin-top:12px;text-align:center;">👆 Tap any row to update your progress</p>
+</section>
+
+<section class="section" id="tips">
+  <div class="section-tag">What I've Learned</div>
+  <div class="section-title">My Tips</div>
+  <div class="section-line"></div>
+  <div class="tips-grid">
+    <div class="tip-card"><div class="tip-num">1</div><div class="tip-icon">👀</div><div class="tip-text"><strong>Mirror, Signal, Manoeuvre</strong> — always check your mirrors before doing anything. MSM every single time.</div></div>
+    <div class="tip-card"><div class="tip-num">2</div><div class="tip-icon">🐢</div><div class="tip-text"><strong>Slow down early</strong> — approach junctions and roundabouts slower than you think. You can always speed up.</div></div>
+    <div class="tip-card"><div class="tip-num">3</div><div class="tip-icon">🔄</div><div class="tip-text"><strong>Roundabouts</strong> — give way to the right, signal when leaving, stay calm and look early.</div></div>
+    <div class="tip-card"><div class="tip-num">4</div><div class="tip-icon">⚙️</div><div class="tip-text"><strong>Gears & speed</strong> — match your gear to your speed. Under 10mph = 1st. Don't ride the clutch.</div></div>
+    <div class="tip-card"><div class="tip-num">5</div><div class="tip-icon">🧠</div><div class="tip-text"><strong>Stay calm</strong> — if you make a mistake, breathe and carry on. Everyone makes them.</div></div>
+    <div class="tip-card"><div class="tip-num">6</div><div class="tip-icon">📺</div><div class="tip-text"><strong>Watch videos</strong> — Conquer Driving on YouTube explains everything better than anyone.</div></div>
+  </div>
+</section>
+
+<div class="gallery-section" id="gallery">
+  <div class="gallery-inner">
+    <div class="section-tag">My Moments</div>
+    <div class="section-title">Photo Gallery</div>
+    <div class="section-line"></div>
+    <p style="font-size:13px;color:#bbb;margin-bottom:24px;">Click any slot to add a photo from your lessons 📸</p>
+    <div class="gallery-grid" id="gallery-grid"></div>
+  </div>
+</div>
+
+<section class="section" id="countdown">
+  <div class="section-tag">The Big Day</div>
+  <div class="section-title">Test Countdown</div>
+  <div class="section-line"></div>
+  <div class="countdown-wrap">
+    <div class="countdown-label">Counting down to</div>
+    <div class="countdown-title" id="cd-title">Driving Test — 9 Jul 2026</div>
+    <div class="countdown-digits">
+      <div class="digit-block"><span class="digit-num" id="cd-days">—</span><span class="digit-lbl">Days</span></div>
+      <div class="digit-sep">:</div>
+      <div class="digit-block"><span class="digit-num" id="cd-hours">—</span><span class="digit-lbl">Hours</span></div>
+      <div class="digit-sep">:</div>
+      <div class="digit-block"><span class="digit-num" id="cd-mins">—</span><span class="digit-lbl">Mins</span></div>
+      <div class="digit-sep">:</div>
+      <div class="digit-block"><span class="digit-num" id="cd-secs">—</span><span class="digit-lbl">Secs</span></div>
+    </div>
+    <div class="countdown-input-wrap">
+      <label>Change test date</label>
+      <input type="date" id="test-date-input" value="2026-07-09" onchange="setTestDate(this.value)">
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Tanvir's Driving Journey 🚗</div>
+  <p class="footer-sub">From first lesson to passing the test · <span style="color:var(--red)">You've got this 💙</span></p>
+</footer>
+
+<!-- TRACKER MODAL -->
+
+<div class="modal-overlay" id="tracker-modal">
+  <div class="modal">
+    <h3 id="modal-title">Topic</h3>
+    <p>Drag to update your progress</p>
+    <div class="modal-section">
+      <label class="lbl-vid">📺 Video Confidence</label>
+      <div class="slider-row"><input type="range" min="0" max="100" value="0" id="vid-slider" oninput="onSlide(this,'vid-val','#3a86ff')"><span class="slider-val" id="vid-val" style="color:#3a86ff">0%</span></div>
+    </div>
+    <div class="modal-section">
+      <label class="lbl-les">🚗 Lesson Progress</label>
+      <div class="slider-row"><input type="range" min="0" max="100" value="0" id="les-slider" oninput="onSlide(this,'les-val','#06d6a0')"><span class="slider-val" id="les-val" style="color:#06d6a0">0%</span></div>
+    </div>
+    <div class="modal-btns">
+      <button class="btn btn-cancel" onclick="closeTrackerModal()">Cancel</button>
+      <button class="btn btn-save" onclick="saveTracker()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- LESSON MODAL -->
+
+<div class="modal-overlay" id="lesson-modal">
+  <div class="lmodal">
+    <h3>Add New Lesson</h3>
+    <div class="form-group"><label>Lesson Number</label><input type="number" id="l-num"></div>
+    <div class="form-group"><label>Date</label><input type="date" id="l-date"></div>
+    <div class="form-group"><label>What did you practise?</label><input type="text" id="l-title" placeholder="e.g. Roundabouts & junctions"></div>
+    <div class="form-group"><label>Notes / how it went</label><textarea id="l-note" placeholder="Write how the lesson went..."></textarea></div>
+    <div class="form-group">
+      <label>Tags</label>
+      <div class="tag-select">
+        <button class="tag-opt" data-tag="good" onclick="toggleTag(this)">✅ Went well</button>
+        <button class="tag-opt" data-tag="practice" onclick="toggleTag(this)">🔄 Needs practice</button>
+        <button class="tag-opt" data-tag="hard" onclick="toggleTag(this)">⚠️ Was hard</button>
+      </div>
+    </div>
+    <div class="modal-btns">
+      <button class="btn btn-cancel" onclick="closeLessonModal()">Cancel</button>
+      <button class="btn btn-save" onclick="saveLesson()">Add Lesson</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// Clear any old 2024 cached lessons
+(function(){
+  try{
+    const v=localStorage.getItem('tanvir-lessons');
+    if(v){const p=JSON.parse(v);if(p[0]&&p[0].date&&p[0].date.startsWith('2024')){localStorage.removeItem('tanvir-lessons');}}
+  }catch(e){}
+})();
+
+const TOPICS=[
+  {id:1,label:"Junctions",priority:true},{id:2,label:"Roundabouts",priority:true},
+  {id:3,label:"Crossroads",priority:true},{id:4,label:"Use of Speed",priority:false},
+  {id:5,label:"Gears",priority:false},{id:6,label:"Straight Reverse",priority:false},
+  {id:7,label:"Turn in the Road",priority:false},{id:8,label:"Parallel Parking",priority:false},
+  {id:9,label:"Forward Bay Park",priority:false},{id:10,label:"Emergency Stop",priority:false},
+  {id:11,label:"Dual Carriageways",priority:false},{id:12,label:"Anticipation & Awareness",priority:false},
+];
+
+const DEFAULT_LESSONS=[
+  {num:1,date:"2025-02-18",title:"First ever lesson!",note:"Learned the basics — moving off, stopping, steering. Was nervous but so exciting!",tags:["good"]},
+  {num:2,date:"2025-02-25",title:"Gears & clutch control",note:"Struggled with the clutch biting point but getting there.",tags:["practice"]},
+  {num:3,date:"2025-03-04",title:"Junctions & roundabouts",note:"Junctions were tricky. Roundabouts felt overwhelming at first.",tags:["hard","practice"]},
+  {num:4,date:"2025-03-11",title:"Bay parking",note:"Managed a bay park! Instructor was pleased. Need more practice though.",tags:["good","practice"]},
+  {num:5,date:"2025-03-18",title:"General driving & mirrors",note:"Better lesson overall. Mirror checks improving. Junctions still need work.",tags:["good","practice"]},
+];
+
+function load(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch(e){return d;}}
+function save(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+
+let trackerData=load('tanvir-tracker',{});
+let lessons=load('tanvir-lessons',DEFAULT_LESSONS);
+let galleryImages=load('tanvir-gallery',{});
+let selectedTags=[];
+let currentTopicId=null;
+let cdInterval=null;
+
+function renderTracker(){
+  const list=document.getElementById('tracker-list');list.innerHTML='';
+  let tv=0,tl=0;
+  TOPICS.forEach(t=>{
+    const d=trackerData[t.id]||{video:0,lesson:0};tv+=d.video;tl+=d.lesson;
+    const el=document.createElement('div');el.className='tracker-item';
+    el.onclick=()=>openTrackerModal(t.id);
+    el.innerHTML=`<div class="tracker-top"><span class="tracker-num">${t.id}</span><span class="tracker-label">${t.label}</span>${t.priority?'<span class="priority-badge">PRIORITY</span>':''}${(d.video===100&&d.lesson===100)?'<span>✅</span>':''}</div><div class="bars"><div class="bar-row"><span class="bar-lbl">Video</span><div class="bar-track"><div class="bar-fill vid" style="width:${d.video}%"></div></div><span class="bar-pct" style="color:${d.video>0?'#3a86ff':'#888'}">${d.video}%</span></div><div class="bar-row"><span class="bar-lbl">Lesson</span><div class="bar-track"><div class="bar-fill les" style="width:${d.lesson}%"></div></div><span class="bar-pct" style="color:${d.lesson>0?'#06d6a0':'#888'}">${d.lesson}%</span></div></div>`;
+    list.appendChild(el);
+  });
+  const ov=Math.round(tv/TOPICS.length),ol=Math.round(tl/TOPICS.length);
+  document.getElementById('overall-video').style.width=ov+'%';document.getElementById('overall-video-num').textContent=ov+'%';
+  document.getElementById('overall-lesson').style.width=ol+'%';document.getElementById('overall-lesson-num').textContent=ol+'%';
+}
+
+function openTrackerModal(id){
+  currentTopicId=id;const t=TOPICS.find(x=>x.id===id);const d=trackerData[id]||{video:0,lesson:0};
+  document.getElementById('modal-title').textContent=t.label;
+  const vs=document.getElementById('vid-slider');const ls=document.getElementById('les-slider');
+  vs.value=d.video;ls.value=d.lesson;onSlide(vs,'vid-val','#3a86ff');onSlide(ls,'les-val','#06d6a0');
+  document.getElementById('tracker-modal').classList.add('open');
+}
+function closeTrackerModal(){document.getElementById('tracker-modal').classList.remove('open');}
+function onSlide(el,valId,color){document.getElementById(valId).textContent=el.value+'%';el.style.background=`linear-gradient(90deg,${color} ${el.value}%,#222 ${el.value}%)`;}
+function saveTracker(){
+  trackerData[currentTopicId]={video:parseInt(document.getElementById('vid-slider').value),lesson:parseInt(document.getElementById('les-slider').value)};
+  save('tanvir-tracker',trackerData);closeTrackerModal();renderTracker();
+}
+document.getElementById('tracker-modal').addEventListener('click',function(e){if(e.target===this)closeTrackerModal();});
+
+function formatDate(d){if(!d)return'';return new Date(d+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});}
+function renderLessons(){
+  const tl=document.getElementById('timeline');tl.innerHTML='';
+  [...lessons].sort((a,b)=>a.num-b.num).forEach(l=>{
+    const div=document.createElement('div');div.className='lesson-item';
+    const tagHtml=l.tags.map(t=>`<span class="tag ${t}">${t==='good'?'✅ Went well':t==='practice'?'🔄 Needs practice':'⚠️ Was hard'}</span>`).join('');
+    div.innerHTML=`<div class="lesson-dot"></div><div class="lesson-card"><div class="lesson-top"><span class="lesson-num">Lesson ${l.num}</span><span class="lesson-date">${formatDate(l.date)}</span></div><div class="lesson-title">${l.title}</div><div class="lesson-note">${l.note}</div><div class="lesson-tags">${tagHtml}</div></div>`;
+    tl.appendChild(div);
+  });
+  document.getElementById('hero-lessons').textContent=lessons.length;
+}
+function openLessonModal(){
+  selectedTags=[];document.querySelectorAll('.tag-opt').forEach(b=>b.className='tag-opt');
+  document.getElementById('l-num').value=lessons.length+1;
+  ['l-date','l-title','l-note'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('lesson-modal').classList.add('open');
+}
+function closeLessonModal(){document.getElementById('lesson-modal').classList.remove('open');}
+function toggleTag(btn){const tag=btn.dataset.tag;if(selectedTags.includes(tag)){selectedTags=selectedTags.filter(t=>t!==tag);btn.className='tag-opt';}else{selectedTags.push(tag);btn.className=`tag-opt selected-${tag}`;}}
+function saveLesson(){
+  const num=parseInt(document.getElementById('l-num').value)||lessons.length+1;
+  const date=document.getElementById('l-date').value;
+  const title=document.getElementById('l-title').value.trim()||'Lesson '+num;
+  const note=document.getElementById('l-note').value.trim()||'No notes added.';
+  lessons.push({num,date,title,note,tags:selectedTags});save('tanvir-lessons',lessons);closeLessonModal();renderLessons();
+}
+document.getElementById('lesson-modal').addEventListener('click',function(e){if(e.target===this)closeLessonModal();});
+
+function renderGallery(){
+  const grid=document.getElementById('gallery-grid');grid.innerHTML='';
+  for(let i=0;i<6;i++){
+    const slot=document.createElement('div');slot.className='gallery-slot'+(galleryImages[i]?' filled':'');
+    if(galleryImages[i]){const img=document.createElement('img');img.src=galleryImages[i];slot.appendChild(img);}
+    else{slot.innerHTML=`<span class="add-icon">📷</span><span class="add-text">Add Photo</span>`;}
+    const inp=document.createElement('input');inp.type='file';inp.accept='image/*';
+    inp.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{galleryImages[i]=ev.target.result;save('tanvir-gallery',galleryImages);renderGallery();};r.readAsDataURL(f);};
+    slot.appendChild(inp);grid.appendChild(slot);
+  }
+}
+
+function setTestDate(val){save('tanvir-testdate',val);startCountdown(val);}
+function startCountdown(dateVal){
+  if(cdInterval)clearInterval(cdInterval);if(!dateVal)return;
+  function tick(){
+    const diff=new Date(dateVal+'T09:00:00')-new Date();
+    if(diff<=0){document.getElementById('cd-days').textContent='🎉';['cd-hours','cd-mins','cd-secs'].forEach(id=>document.getElementById(id).textContent='');document.getElementById('cd-title').textContent='TEST DAY! Good luck Tanvir! 🚗✨';clearInterval(cdInterval);return;}
+    document.getElementById('cd-days').textContent=String(Math.floor(diff/86400000)).padStart(2,'0');
+    document.getElementById('cd-hours').textContent=String(Math.floor((diff%86400000)/3600000)).padStart(2,'0');
+    document.getElementById('cd-mins').textContent=String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+    document.getElementById('cd-secs').textContent=String(Math.floor((diff%60000)/1000)).padStart(2,'0');
+    document.getElementById('hero-days').textContent=Math.floor(diff/86400000);
+  }
+  tick();cdInterval=setInterval(tick,1000);
+}
+
+renderTracker();renderLessons();renderGallery();startCountdown('2026-07-09');
+</script>
+
+</div></body>
+</html>
